@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chess</title>
+</head>
+<body>
+   <div id="chess">
+   </div> 
+
+    <h1>hi</h1>
+   <script>
+        window.onload = function() {
+            const chessLayout = document.getElementById('chess');
+            const application = window.location.pathname.replace('/', '').split('/')[0];
+            switch (application) {
+                case 'chess':
+                    window.renderChess({ mount: chessLayout })
+                    break;
+            } 
+        }
+   </script>
+</body>
+</html>

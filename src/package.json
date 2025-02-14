@@ -1,0 +1,30 @@
+{
+  "name": "chess-fe",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "craco start --verbose"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "@craco/craco": "^7.1.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  },
+  "cracoConfig": "./craco.config.js",
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}
