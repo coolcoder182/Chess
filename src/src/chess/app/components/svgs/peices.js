@@ -4,7 +4,7 @@ import { ReactNode } from "react";
 // This W3C - unspecified vector image was created with Inkscape., CC BY - SA 3.0, https://commons.wikimedia.org/w/index.php?curid=1499810
 
 export const defaultPieces = {
-  wP: (
+  P: (
     <svg
       xmlns="http://www.w3.org/2000/svg"
       version="1.1"
@@ -29,7 +29,7 @@ export const defaultPieces = {
       />
     </svg>
   ),
-  wR: (
+  R: (
     <svg
       xmlns="http://www.w3.org/2000/svg"
       version="1.1"
@@ -76,7 +76,7 @@ export const defaultPieces = {
       </g>
     </svg>
   ),
-  wN: (
+  N: (
     <svg
       xmlns="http://www.w3.org/2000/svg"
       version="1.1"
@@ -118,7 +118,7 @@ export const defaultPieces = {
       </g>
     </svg>
   ),
-  wB: (
+  B: (
     <svg
       xmlns="http://www.w3.org/2000/svg"
       version="1.1"
@@ -154,7 +154,7 @@ export const defaultPieces = {
       </g>
     </svg>
   ),
-  wQ: (
+  Q: (
     <svg
       xmlns="http://www.w3.org/2000/svg"
       version="1.1"
@@ -184,7 +184,7 @@ export const defaultPieces = {
       </g>
     </svg>
   ),
-  wK: (
+  K: (
     <svg
       xmlns="http://www.w3.org/2000/svg"
       version="1.1"
@@ -241,7 +241,7 @@ export const defaultPieces = {
       </g>
     </svg>
   ),
-  bP: (
+  p: (
     <svg
       xmlns="http://www.w3.org/2000/svg"
       version="1.1"
@@ -266,7 +266,7 @@ export const defaultPieces = {
       />
     </svg>
   ),
-  bR: (
+  r: (
     <svg
       xmlns="http://www.w3.org/2000/svg"
       version="1.1"
@@ -360,7 +360,7 @@ export const defaultPieces = {
       </g>
     </svg>
   ),
-  bN: (
+  n: (
     <svg
       xmlns="http://www.w3.org/2000/svg"
       version="1.1"
@@ -406,7 +406,7 @@ export const defaultPieces = {
       </g>
     </svg>
   ),
-  bB: (
+  b: (
     <svg
       xmlns="http://www.w3.org/2000/svg"
       version="1.1"
@@ -442,7 +442,7 @@ export const defaultPieces = {
       </g>
     </svg>
   ),
-  bQ: (
+  q: (
     <svg
       xmlns="http://www.w3.org/2000/svg"
       version="1.1"
@@ -483,7 +483,7 @@ export const defaultPieces = {
       </g>
     </svg>
   ),
-  bK: (
+  k: (
     <svg
       xmlns="http://www.w3.org/2000/svg"
       version="1.1"
