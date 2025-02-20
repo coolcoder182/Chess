@@ -1,9 +1,9 @@
 import { Board } from "./components/Board"
-import { BoardContext } from "./contexts/chess-context"
+import { BoardContext, ChessContext, ChessProvider } from "./contexts/chess-context"
 const STARTING_FEN = 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1';
 
 export const ChessApp = () => {
-    const board = generateBoardFromFen();
+    const fenString = STARTING_FEN
     return (
         <div 
             style={{
@@ -12,19 +12,11 @@ export const ChessApp = () => {
                 marginRight: 'auto'
             }} 
         >
-            <BoardContext.Provider value={board}>
+            <ChessProvider
+                fenString={fenString}
+            >
                 <Board />
-            </BoardContext.Provider>
+            </ChessProvider>
         </div>
     )
-}
-
-const generateBoardFromFen = (fenString = '') => {
-    const board = new Array(64).fill('');
-    board[19] = 'P';
-    board[30] = 'k';
-    board[0] = 'R';
-    board[2] = 'K';
-    board[40] = 'q';
-    return board;
 }
