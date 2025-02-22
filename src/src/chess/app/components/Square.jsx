@@ -1,24 +1,18 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { defaultPieces } from "./svgs/peices";
 import { BoardContext } from "../contexts/chess-context";
+import { handleSquareClick } from "../logic/moveLogic";
 
 export const Square = ({ peice, index, squareColor, width }) => {
-    const {
-        selectedPeice,
-        selectedIndex
-    } = useContext(BoardContext);
-    const [bgColor, setBgColor] = useState(squareColor);
+    const state = useContext(BoardContext);
+    const { selectedIndex } = state;
+
     return (
         <div
-            onClick={() => {
-                if (index !== selectedIndex) {
-                    
-                    setBgColor('#0000ff80');
-                }
-            }}
+            onClick={() => handleSquareClick(state, index)}
         >
             <div
-                style={{ backgroundColor: bgColor, height: width / 8, width: width / 8,}}
+                style={{ backgroundColor: index === selectedIndex ? '#0000ff50' : squareColor, height: width / 8, width: width / 8,}}
             >
                 <svg
                     viewBox={"1 1 43 43"}

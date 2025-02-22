@@ -11,6 +11,7 @@ export const ChessProvider = ({
     const [board, setBoard] = useState(new Array(64).fill(''));
     const [selectedPeice, setSelectedPeice] = useState('');
     const [selectedIndex, setSelectedIndex] = useState(null);
+    const [gameTurn, setGameTurn] = useState('w');
     const [fen, setFen] = useState(fenString);
 
     useEffect(() => {
@@ -36,11 +37,14 @@ export const ChessProvider = ({
     //return this
     const ChessBoardProviderContextValue = {
         board,
+        setBoard,
         children,
         selectedIndex,
         setSelectedIndex,
         selectedPeice,
-        setSelectedPeice
+        setSelectedPeice,
+        gameTurn,
+        setGameTurn
     }
 
     return (
