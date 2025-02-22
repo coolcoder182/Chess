@@ -9,6 +9,7 @@ export const ChessProvider = ({
 }) => {
 
     const [board, setBoard] = useState(new Array(64).fill(''));
+    const [availableMoves, setAvailableMoves] = useState([])
     const [selectedPeice, setSelectedPeice] = useState('');
     const [selectedIndex, setSelectedIndex] = useState(null);
     const [gameTurn, setGameTurn] = useState('w');
@@ -44,7 +45,9 @@ export const ChessProvider = ({
         selectedPeice,
         setSelectedPeice,
         gameTurn,
-        setGameTurn
+        setGameTurn,
+        availableMoves,
+        setAvailableMoves,
     }
 
     return (
