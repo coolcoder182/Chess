@@ -24,6 +24,7 @@ export const Square = ({ peice, index, squareColor, width }) => {
                     justifyContent: 'center'
                 }}
             >
+                {index}
                 {defaultPieces[peice] && <svg
                     viewBox={"1 1 43 43"}
                     width={width / 8}
