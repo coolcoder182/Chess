@@ -34,7 +34,7 @@ const updateAvailableMoves = (state, index) => {
         board,
         setAvailableMoves,
     } = state;
-    if (!index) {
+    if (!index && index !== 0) {
         return;
     }
     let availableMoves = [];
@@ -91,83 +91,142 @@ const generateMoves = (state, index) => {
 }
 
 const generateSlidingMoves = (state, selectedPeice, currentIndex) => {
+    let availableMoves = [];
+    //bishop
+    if (/[b]/.test(selectedPeice.toLowerCase())) {
+        availableMoves.push(...getDiagonalMoves(state, currentIndex, selectedPeice));
+    }
+    //rook
+    if (/[r]/.test(selectedPeice.toLowerCase())) {
+        availableMoves.push(...getHorizontalMoves(state, currentIndex, selectedPeice));
+    }
+    //queen
+    if (/[q]/.test(selectedPeice.toLowerCase())) {
+        availableMoves.push(...getHorizontalMoves(state, currentIndex, selectedPeice));
+        availableMoves.push(...getDiagonalMoves(state, currentIndex, selectedPeice));
+    }
+    return availableMoves;
+}
+
+const getDiagonalMoves = (state, currentIndex, selectedPeice) => {
     const {
         board
     } = state;
     const availableMoves = [];
+    const peiceColor = selectedPeice.toLowerCase() === selectedPeice ? 'b' : 'w';
+    const enemyPeiceColor = peiceColor === 'w' ? 'b' : 'w';
+    let temp = currentIndex;
+    while (temp - 9 >= 0 && temp % 8 != 0) {
+        temp -= 9;
+        if (getPeiceColor(board[temp]) === peiceColor) {
+            break;
+        } 
+        if (getPeiceColor(board[temp]) === enemyPeiceColor) {
+            availableMoves.push(temp);
+            break;
+        }
+        availableMoves.push(temp);
+    }
+    temp = currentIndex;
+    while (temp - 7 >= 0 && temp % 8 != 7) {
+        temp -= 7
+        if (getPeiceColor(board[temp]) === peiceColor) {
+            break;
+        } 
+        if (getPeiceColor(board[temp]) === enemyPeiceColor) {
+            availableMoves.push(temp);
+            break;
+        }
+        availableMoves.push(temp);
+    }
+
+    temp = currentIndex;
+    while (temp + 7 < 64 && temp % 8 != 0) {
+        temp += 7
+        if (getPeiceColor(board[temp]) === peiceColor) {
+            break;
+        } 
+        if (getPeiceColor(board[temp]) === enemyPeiceColor) {
+            availableMoves.push(temp);
+            break;
+        }
+        availableMoves.push(temp);
+    }
+
+    temp = currentIndex;
+    while (temp + 9 < 64 && temp % 8 != 7) {
+        temp += 9
+        if (getPeiceColor(board[temp]) === peiceColor) {
+            break;
+        } 
+        if (getPeiceColor(board[temp]) === enemyPeiceColor) {
+            availableMoves.push(temp);
+            break;
+        }
+        availableMoves.push(temp);
+    }
+    return availableMoves;
+}
+
+const getHorizontalMoves = (state, currentIndex, selectedPeice) => {
+    const {
+        board
+    } = state;
+    const moves = [];
     let temp = currentIndex;
     const peiceColor = selectedPeice.toLowerCase() === selectedPeice ? 'b' : 'w';
     const enemyPeiceColor = peiceColor === 'w' ? 'b' : 'w';
-    //bishop
-    if (/[b]/.test(selectedPeice.toLowerCase)) {
+    while (temp - 1 >= 0 && temp % 8 !== 0) {
+        temp -= 1;
+        if (getPeiceColor(board[temp]) === peiceColor) {
+            break;
+        } 
+        if (getPeiceColor(board[temp]) === enemyPeiceColor) {
+            moves.push(temp);
+            break;
+        }
+        moves.push(temp);
     }
-    //rook
-    if (/[r]/.test(selectedPeice.toLowerCase())) {
-        // do {}
-        for (let i = temp; i <= 63; i+=8) {
-            if (getPeiceColor(board[i]) === peiceColor) {
-                continue;
-            } 
-            if (getPeiceColor(board[i]) === enemyPeiceColor) {
-                availableMoves.push(i);
-                console.log(getPeiceColor(board[i]), ' ', i);
-                continue;
-            }
-            if (i === temp + 8) {
-                temp = i;
-                availableMoves.push(i);
-            }
+
+    temp = currentIndex;
+    while (temp + 1 < 64 && temp % 8 !== 7) {
+        temp += 1;
+        if (getPeiceColor(board[temp]) === peiceColor) {
+            break;
+        } 
+        if (getPeiceColor(board[temp]) === enemyPeiceColor) {
+            moves.push(temp);
+            break;
         }
-        temp = currentIndex;
-        for (let i = temp; i >= 0; i-=8) {
-            if (getPeiceColor(board[i]) === peiceColor) {
-                continue;
-            } 
-            if (getPeiceColor(board[i]) === enemyPeiceColor) {
-                availableMoves.push(i);
-                console.log(getPeiceColor(board[i]), ' ', i);
-                continue;
-            }
-            if (i === temp - 8) {
-                temp = i;
-                availableMoves.push(i);
-            }
-        }
-        temp = currentIndex;
-        for (let i = temp; i <= 31; i++) {
-            if (getPeiceColor(board[i]) === peiceColor) {
-                continue;
-            } 
-            if (getPeiceColor(board[i]) === enemyPeiceColor) {
-                availableMoves.push(i);
-                console.log(getPeiceColor(board[i]), ' ', i);
-                continue;
-            }
-            if (i === temp + 1) {
-                temp = i;
-                availableMoves.push(i);
-            }
-        }
-        temp = currentIndex;
-        for (let i = temp; i >= 24; i--) {
-            if (getPeiceColor(board[i]) === peiceColor) {
-                continue;
-            } 
-            if (getPeiceColor(board[i]) === enemyPeiceColor) {
-                availableMoves.push(i);
-                console.log(getPeiceColor(board[i]), ' ', i);
-                continue;
-            }
-            if (i === temp - 1) {
-                temp = i;
-                availableMoves.push(i);
-            }
-        }
+        moves.push(temp);
     }
-    //queen
-    if (/[q]/.test(selectedPeice.toLowerCase())) {
+
+    temp = currentIndex;
+    while (temp - 8 >= 0) {
+        temp -= 8;
+        if (getPeiceColor(board[temp]) === peiceColor) {
+            break;
+        } 
+        if (getPeiceColor(board[temp]) === enemyPeiceColor) {
+            moves.push(temp);
+            break;
+        }
+        moves.push(temp);
     }
-    return availableMoves;
+
+    temp = currentIndex;
+    while (temp + 8 < 64) {
+        temp += 8;
+        if (getPeiceColor(board[temp]) === peiceColor) {
+            break;
+        } 
+        if (getPeiceColor(board[temp]) === enemyPeiceColor) {
+            moves.push(temp);
+            break;
+        }
+        moves.push(temp);
+    }
+    return moves;
 }
 
 const getPeiceColor = (peice) => {
@@ -175,4 +234,28 @@ const getPeiceColor = (peice) => {
         return '';  
     }
     return peice.toLowerCase() === peice ? 'b' : 'w';
+}
+
+const getRightMoves = (index) => {
+    if (index === 0) {
+        return 7;
+    }
+    switch (index % 8) {
+        case 0:
+            return 7;
+        case 1:
+            return 6;
+        case 2:
+            return 5;
+        case 3:
+            return 4;
+        case 4:
+            return 3;
+        case 5:
+            return 2;
+        case 6:
+            return 1;
+        case 7:
+            return 0;
+    }
 }
