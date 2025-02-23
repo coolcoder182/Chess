@@ -41,7 +41,7 @@ const updateAvailableMoves = (state, index) => {
     if (/[PRNBQK]/.test(board[index])) {
         availableMoves = generateMoves(state, index);
     } else {
-        availableMoves.push(63);
+        availableMoves = generateMoves(state, index);
     }
     if (availableMoves.length > 0) {
         setAvailableMoves(availableMoves);
@@ -67,7 +67,7 @@ const selectMove = (state, index) => {
     newBoard[selectedIndex] = '';
     setBoard(newBoard);
     setSelectedIndex(null);
-    // setGameTurn(gameTurn === 'w' ? 'b' : 'w');
+    setGameTurn(gameTurn === 'w' ? 'b' : 'w');
     setAvailableMoves([]);
 }
 
@@ -234,28 +234,4 @@ const getPeiceColor = (peice) => {
         return '';  
     }
     return peice.toLowerCase() === peice ? 'b' : 'w';
-}
-
-const getRightMoves = (index) => {
-    if (index === 0) {
-        return 7;
-    }
-    switch (index % 8) {
-        case 0:
-            return 7;
-        case 1:
-            return 6;
-        case 2:
-            return 5;
-        case 3:
-            return 4;
-        case 4:
-            return 3;
-        case 5:
-            return 2;
-        case 6:
-            return 1;
-        case 7:
-            return 0;
-    }
 }
