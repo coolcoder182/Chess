@@ -79,15 +79,105 @@ const generateMoves = (state, index) => {
     if (/[rbq]/.test(peice.toLowerCase())) {
         return generateSlidingMoves(state, peice, index);
     } else if (/[p]/.test(peice.toLowerCase())) {
-        console.log('need to implement generate pawn moves');
-        return [];
+        return generatePawnMoves(state, peice, index);
     } else if (/[k]/.test(peice.toLowerCase())) {
         console.log('need to implement generate king moves');
         return [];
+    } else if (/[n]/.test(peice.toLowerCase())) {
+        return generateKnightMoves(state, peice, index); 
     } else {
         console.log('something went wrong in generate moves');
         return [];
     }
+}
+
+const generateKnightMoves = (state, selectedPeice, currentIndex) => {
+    const {
+        board
+    } = state;
+    const selectedPeiceColor = getPeiceColor(selectedPeice);
+    const availableMoves = [];
+    const moves = [
+        { move1: -16, move2: 1 }, // Move 2 rows up, then 1 right
+        { move1: -16, move2: -1 }, // Move 2 rows up, then 1 left
+        { move1: -8, move2: 2 }, // Move 1 row up, then 2 right
+        { move1: -8, move2: -2 }, // Move 1 row up, then 2 left
+        { move1: 16, move2: 1 }, // Move 2 rows down, then 1 right
+        { move1: 16, move2: -1 }, // Move 2 rows down, then 1 left
+        { move1: 8, move2: 2 }, // Move 1 row down, then 2 right
+        { move1: 8, move2: -2 }, // Move 1 row down, then 2 left
+    ];
+
+    for (const move of moves) {
+        let firstMove = currentIndex + move.move1;
+
+        if (firstMove >= 0 && firstMove <= 63) {
+            let secondMove = firstMove + move.move2;
+            if (getPeiceColor(board[secondMove]) === selectedPeiceColor) {
+                continue;
+            } 
+            const isLeftMove = move.move2 < 0;
+            if (isLeftMove) {
+                if (firstMove % 8 >= Math.abs(move.move2)) {
+                    availableMoves.push(secondMove);
+                }                
+            } else {
+                if (7 - (firstMove % 8) >= move.move2) {
+                    availableMoves.push(secondMove);
+                }
+            }
+        }
+    }
+    return availableMoves;
+}
+
+const generatePawnMoves = (state, selectedPeice, currentIndex) => {
+    const peiceColor = selectedPeice.toLowerCase() === selectedPeice ? 'b' : 'w';
+    let firstMove = true;
+    let direction = -8;
+    if (peiceColor === 'w') {
+         if (currentIndex < 48) {
+            firstMove = false;
+         }
+    } else {
+        if (currentIndex > 15) {
+            firstMove = false;
+        }
+        direction = 8;
+    }
+    return getPawnMoves(state, currentIndex, firstMove, direction, peiceColor);
+}
+
+const getPawnMoves = (state, currentIndex, firstMove, direction, peiceColor) => {
+    const {
+        board
+    } = state;
+    alert('need to implment en pessant')
+    const enemyPeiceColor = peiceColor === 'w' ? 'b' : 'w';
+    const availableMoves = [];
+    if ((currentIndex + direction) < 0 || (currentIndex + direction > 63)) {
+        alert('this will be promoted dont handle ALSO REMOVE THIS ALERT');
+        return availableMoves;
+    }
+    //basic move
+    if (!/[prnbqk]/.test(board[currentIndex + direction].toLowerCase())) {
+        availableMoves.push(currentIndex + direction);
+    }
+    if (firstMove && board[currentIndex + (direction * 2)] === '') {
+        availableMoves.push(currentIndex + (direction * 2));
+    }
+
+    //taking left side
+    const leftSideIndex = currentIndex + (direction - 1);
+    if (currentIndex % 8 !== 0 && getPeiceColor(board[leftSideIndex]) === enemyPeiceColor) {
+        availableMoves.push(leftSideIndex);
+    }
+    //taking right side
+    const rightSideIndex = currentIndex + (direction + 1);
+    if (currentIndex % 8 !== 7 && getPeiceColor(board[rightSideIndex]) === enemyPeiceColor) {
+        availableMoves.push(rightSideIndex);
+    }
+    return availableMoves;
 }
 
 const generateSlidingMoves = (state, selectedPeice, currentIndex) => {
