@@ -191,7 +191,7 @@ const getPawnMoves = (state, currentIndex, firstMove, direction, peiceColor) => 
     if (!/[prnbqk]/.test(board[currentIndex + direction].toLowerCase())) {
         availableMoves.push(currentIndex + direction);
     }
-    if (firstMove && board[currentIndex + (direction * 2)] === '') {
+    if (firstMove && board[currentIndex + direction] === '') {
         availableMoves.push(currentIndex + (direction * 2));
     }
 

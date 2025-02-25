@@ -36,7 +36,7 @@ export const Square = ({ peice, index, squareColor, width }) => {
                 {availableMoves.includes(index) && <span style={{
                     height: '25px',
                     width: '25px',
-                    backgroundColor: 'rgba(187, 187, 187, 0.5)',
+                    backgroundColor: 'rgba(187, 187, 187, 0.6)',
                     borderRadius: '50%',
                     position: 'absolute',
                     top: '50%',
