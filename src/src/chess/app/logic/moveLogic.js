@@ -81,14 +81,42 @@ const generateMoves = (state, index) => {
     } else if (/[p]/.test(peice.toLowerCase())) {
         return generatePawnMoves(state, peice, index);
     } else if (/[k]/.test(peice.toLowerCase())) {
-        console.log('need to implement generate king moves');
-        return [];
+        return generateKingMoves(state, peice, index);
     } else if (/[n]/.test(peice.toLowerCase())) {
         return generateKnightMoves(state, peice, index); 
     } else {
         console.log('something went wrong in generate moves');
         return [];
     }
+}
+
+const generateKingMoves = (state, peice, index) => {
+    const {
+        board
+    } = state;
+    const availableMoves = [];
+    const possibleDirections = [
+        -9, -8, -7, -1, 1, 7, 8, 9
+    ];
+
+    possibleDirections.forEach(possibleDirection => {
+        const possibleIndex = index + possibleDirection;
+        if (possibleIndex <= 63 && possibleIndex >=0) {
+            //check left side
+            if (index % 8 === 0 && (possibleDirection === -9 || possibleDirection === -1 || possibleDirection === 7)) {
+                return;
+            }
+            // check right side
+            if (index % 8 === 7 && (possibleDirection === -7 || possibleDirection === 1 || possibleDirection === 9)) {
+                return;
+            }
+            if (getPeiceColor(board[possibleIndex]) !== getPeiceColor(peice)) {
+                availableMoves.push(possibleIndex);
+            }
+        }
+    });
+
+    return availableMoves;
 }
 
 const generateKnightMoves = (state, selectedPeice, currentIndex) => {
