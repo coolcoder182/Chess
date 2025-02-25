@@ -13,16 +13,18 @@ export const ChessProvider = ({
     const [selectedPeice, setSelectedPeice] = useState('');
     const [selectedIndex, setSelectedIndex] = useState(null);
     const [gameTurn, setGameTurn] = useState('w');
+    const [casteling, setCasteling] = useState('-');
     const [fen, setFen] = useState(fenString);
 
     useEffect(() => {
-        setBoard(generateBoardFromFen(fen));
+        generateBoardFromFen(fen);
     }, [fen])
 
     const generateBoardFromFen = (fenString) => {
         const board = new Array(64).fill('');
         let index = 0;
         const fen = fenString.split(' ');
+        //board [0]
         fen[0].split('').forEach(char => {
             if (/[a-zA-Z]/.test(char)) {
                 board[index] = char;
@@ -32,7 +34,11 @@ export const ChessProvider = ({
                 index += Number(char);
             }
         });
-        return board;
+        setBoard(board);
+        //turn [1]
+        setGameTurn(fen[1]);
+        //casteling
+        setCasteling(fen[2]);
     }
 
     //return this
@@ -48,6 +54,8 @@ export const ChessProvider = ({
         setGameTurn,
         availableMoves,
         setAvailableMoves,
+        casteling,
+        setCasteling
     }
 
     return (
