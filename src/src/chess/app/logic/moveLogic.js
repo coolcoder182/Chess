@@ -6,13 +6,13 @@ export const handleSquareClick = (state, index) => {
         board,
         gameTurn
     } = state;
-    if (selectedIndex === null || getPeiceColor(board[index]) === gameTurn) {
+    if (selectedIndex === index) {
+        setSelectedIndex(null);
+        setAvailableMoves([]);
+    } else if (selectedIndex === null || getPeiceColor(board[index]) === gameTurn) {
         const newSelectedIndex = selectPeice(state, index);
         setSelectedIndex(newSelectedIndex);
         updateAvailableMoves(state, newSelectedIndex);
-    } else if (selectedIndex === index) {
-        setSelectedIndex(null);
-        setAvailableMoves([]);
     } else {
         selectMove(state, index);
     }
@@ -180,7 +180,7 @@ const getPawnMoves = (state, currentIndex, firstMove, direction, peiceColor) => 
     const {
         board
     } = state;
-    alert('need to implment en pessant')
+    // alert('need to implment en pessant')
     const enemyPeiceColor = peiceColor === 'w' ? 'b' : 'w';
     const availableMoves = [];
     if ((currentIndex + direction) < 0 || (currentIndex + direction > 63)) {

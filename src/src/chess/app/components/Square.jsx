@@ -19,27 +19,30 @@ export const Square = ({ peice, index, squareColor, width }) => {
                     backgroundColor: index === selectedIndex ? '#0000ff50' : squareColor,
                     height: width / 8,
                     width: width / 8,
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center'
+                    position: 'relative'
                 }}
             >
-                {index}
+                <span style={{
+                    position: 'absolute',
+                }}>{index}</span>
                 {defaultPieces[peice] && <svg
                     viewBox={"1 1 43 43"}
                     width={width / 8}
                     height={width / 8}
                     style={{ display: "block", zIndex: '0' }}
                 >
-                    <g style={{ zIndex:'0'}}>{defaultPieces[peice]}</g>
+                    <g>{defaultPieces[peice]}</g>
                 </svg>}
                 {availableMoves.includes(index) && <span style={{
                     height: '25px',
                     width: '25px',
-                    backgroundColor: '#bbb',
+                    backgroundColor: 'rgba(187, 187, 187, 0.5)',
                     borderRadius: '50%',
-                    zIndex: '1',
-                    position: 'relative'
+                    position: 'absolute',
+                    top: '50%',
+                    left: '50%',
+                    marginTop: '-12.5px',
+                    marginLeft: '-12.5px'
                 }}></span>}
             </div>
         </div>
