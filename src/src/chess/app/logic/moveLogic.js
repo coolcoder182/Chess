@@ -3,8 +3,10 @@ export const handleSquareClick = (state, index) => {
         selectedIndex,
         setSelectedIndex,
         setAvailableMoves,
+        board,
+        gameTurn
     } = state;
-    if (selectedIndex === null /* TODO or player chosing different peice */) {
+    if (selectedIndex === null || getPeiceColor(board[index]) === gameTurn) {
         const newSelectedIndex = selectPeice(state, index);
         setSelectedIndex(newSelectedIndex);
         updateAvailableMoves(state, newSelectedIndex);
@@ -43,9 +45,7 @@ const updateAvailableMoves = (state, index) => {
     } else {
         availableMoves = generateMoves(state, index);
     }
-    if (availableMoves.length > 0) {
-        setAvailableMoves(availableMoves);
-    }
+    setAvailableMoves(availableMoves);
 }
 
 const selectMove = (state, index) => {
