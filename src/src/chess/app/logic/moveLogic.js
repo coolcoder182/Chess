@@ -58,14 +58,57 @@ const selectMove = (state, index) => {
         setGameTurn,
         availableMoves,
         setAvailableMoves,
-        casteling,
-        setCasteling,
     } = state;
     if (!availableMoves.includes(index)) {
         return;
     }
     const newBoard = [...board];
-    if (board[selectedIndex] === 'K') {
+    if (board[selectedIndex] === 'K' || board[selectedIndex] === 'k') {
+       handleCastleMove(state, newBoard, index); 
+    }
+    if ([0, 7, 56, 63].includes(selectedIndex) && board[selectedIndex] === 'R' || board[selectedIndex] === 'r') {
+        handleRookMoveCancelCastle(state);
+    }
+    newBoard[index] = board[selectedIndex];
+    newBoard[selectedIndex] = '';
+    setBoard(newBoard);
+    setSelectedIndex(null);
+    // setGameTurn(gameTurn === 'w' ? 'b' : 'w');
+    setAvailableMoves([]);
+}
+
+const handleRookMoveCancelCastle = (state) => {
+    const {
+        selectedIndex,
+        casteling,
+        setCasteling
+    } = state;
+    let newCasteling = casteling;
+    switch (selectedIndex) {
+        case 0:
+            newCasteling = newCasteling.replace('q', '');
+        case 7:
+            newCasteling = newCasteling.replace('k', '');
+        case 56:
+            newCasteling = newCasteling.replace('Q', '');
+        case 63:
+            newCasteling = newCasteling.replace('K', '');
+        default:
+    }
+    if (newCasteling === '') {
+        newCasteling = '-';
+    } 
+    setCasteling(newCasteling)
+}
+
+const handleCastleMove = (state, newBoard, index) => {
+    const {
+        board,
+        casteling,
+        setCasteling,
+        selectedIndex
+    } = state;
+    if(board[selectedIndex] === 'K') {
         if (casteling.includes('K') && index === 62) {
             newBoard[63] = '';
             newBoard[61] = 'R';
@@ -94,12 +137,7 @@ const selectMove = (state, index) => {
         }
         setCasteling(newCasteling);
     }
-    newBoard[index] = board[selectedIndex];
-    newBoard[selectedIndex] = '';
-    setBoard(newBoard);
-    setSelectedIndex(null);
-    // setGameTurn(gameTurn === 'w' ? 'b' : 'w');
-    setAvailableMoves([]);
+    return newBoard;
 }
 
 const generateMoves = (state, index) => {
