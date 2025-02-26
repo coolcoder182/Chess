@@ -58,23 +58,46 @@ const selectMove = (state, index) => {
         setGameTurn,
         availableMoves,
         setAvailableMoves,
+        setEnPessantIndex
     } = state;
     if (!availableMoves.includes(index)) {
         return;
     }
     const newBoard = [...board];
     if (board[selectedIndex] === 'K' || board[selectedIndex] === 'k') {
-       handleCastleMove(state, newBoard, index); 
+        handleCastleMove(state, newBoard, index); 
     }
     if ([0, 7, 56, 63].includes(selectedIndex) && board[selectedIndex] === 'R' || board[selectedIndex] === 'r') {
         handleRookMoveCancelCastle(state);
+    }
+    if (board[selectedIndex].toLowerCase() === 'p') {
+        handlePawnPossibleEnPessant(state, index);
     }
     newBoard[index] = board[selectedIndex];
     newBoard[selectedIndex] = '';
     setBoard(newBoard);
     setSelectedIndex(null);
-    // setGameTurn(gameTurn === 'w' ? 'b' : 'w');
+    setGameTurn(gameTurn === 'w' ? 'b' : 'w');
     setAvailableMoves([]);
+    setEnPessantIndex(null);
+}
+
+const handlePawnPossibleEnPessant = (state, index) => {
+    const {
+        setEnPessantIndex,
+        selectedIndex,
+        board,
+        gameTurn
+    } = state;
+    const enemyPawn = gameTurn === 'w' ? 'p' : 'P';
+    let newEPIndex = null;
+    if (Math.abs(index - selectedIndex) === 16) {
+        console.log('double jump')
+        if (selectedIndex % 8 === 0 && board[index+1] === enemyPawn) {
+            newEPIndex = gameTurn === 'w' ? index + 7 : index - 9
+        }
+    }
+    setEnPessantIndex(newEPIndex)
 }
 
 const handleRookMoveCancelCastle = (state) => {
@@ -272,11 +295,15 @@ const generatePawnMoves = (state, selectedPeice, currentIndex) => {
 
 const getPawnMoves = (state, currentIndex, firstMove, direction, peiceColor) => {
     const {
-        board
+        board,
+        enPessantIndex
     } = state;
     // alert('need to implment en pessant')
     const enemyPeiceColor = peiceColor === 'w' ? 'b' : 'w';
     const availableMoves = [];
+    if (enPessantIndex) {
+        availableMoves.push(enPessantIndex);
+    }
     if ((currentIndex + direction) < 0 || (currentIndex + direction > 63)) {
         alert('this will be promoted dont handle ALSO REMOVE THIS ALERT');
         return availableMoves;

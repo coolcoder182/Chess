@@ -1,6 +1,6 @@
 import { Board } from "./components/Board"
 import { ChessProvider } from "./contexts/chess-context"
-const STARTING_FEN = 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR b KQkq - 0 1';
+const STARTING_FEN = 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1';
 // const STARTING_TEST_FEN = 'rnbqkbnr/pp6/8/8/8/8/1P6/RNBQKBNR w KQkq - 0 1';
 
 export const ChessApp = () => {

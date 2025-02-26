@@ -15,6 +15,7 @@ export const ChessProvider = ({
     const [gameTurn, setGameTurn] = useState('w');
     const [casteling, setCasteling] = useState('-');
     const [fen, setFen] = useState(fenString);
+    const [enPessantIndex, setEnPessantIndex] = useState(null);
 
     useEffect(() => {
         generateBoardFromFen(fen);
@@ -55,7 +56,9 @@ export const ChessProvider = ({
         availableMoves,
         setAvailableMoves,
         casteling,
-        setCasteling
+        setCasteling,
+        enPessantIndex,
+        setEnPessantIndex
     }
 
     return (
