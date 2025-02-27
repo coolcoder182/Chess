@@ -58,6 +58,7 @@ const selectMove = (state, index) => {
         setGameTurn,
         availableMoves,
         setAvailableMoves,
+        enPessantIndex,
         setEnPessantIndex
     } = state;
     if (!availableMoves.includes(index)) {
@@ -70,8 +71,13 @@ const selectMove = (state, index) => {
     if ([0, 7, 56, 63].includes(selectedIndex) && board[selectedIndex] === 'R' || board[selectedIndex] === 'r') {
         handleRookMoveCancelCastle(state);
     }
+    setEnPessantIndex(null);
     if (board[selectedIndex].toLowerCase() === 'p') {
         handlePawnPossibleEnPessant(state, index);
+        const direction = gameTurn === 'w' ? 8 : -8;
+        if (index === enPessantIndex) {
+            newBoard[index + direction] = '';
+        }
     }
     newBoard[index] = board[selectedIndex];
     newBoard[selectedIndex] = '';
@@ -79,7 +85,6 @@ const selectMove = (state, index) => {
     setSelectedIndex(null);
     setGameTurn(gameTurn === 'w' ? 'b' : 'w');
     setAvailableMoves([]);
-    setEnPessantIndex(null);
 }
 
 const handlePawnPossibleEnPessant = (state, index) => {
@@ -92,9 +97,12 @@ const handlePawnPossibleEnPessant = (state, index) => {
     const enemyPawn = gameTurn === 'w' ? 'p' : 'P';
     let newEPIndex = null;
     if (Math.abs(index - selectedIndex) === 16) {
-        console.log('double jump')
         if (selectedIndex % 8 === 0 && board[index+1] === enemyPawn) {
-            newEPIndex = gameTurn === 'w' ? index + 7 : index - 9
+            newEPIndex = gameTurn === 'w' ? index + 8 : index - 8;
+        } else if (selectedIndex % 8 === 7 && board[index - 1] === enemyPawn) {
+            newEPIndex = gameTurn === 'w' ? index + 8 : index - 8;
+        } else if (board[index - 1] === enemyPawn || board[index + 1] === enemyPawn){
+            newEPIndex = gameTurn === 'w' ? index + 8 : index - 8;
         }
     }
     setEnPessantIndex(newEPIndex)
@@ -280,6 +288,7 @@ const generatePawnMoves = (state, selectedPeice, currentIndex) => {
     const peiceColor = selectedPeice.toLowerCase() === selectedPeice ? 'b' : 'w';
     let firstMove = true;
     let direction = -8;
+    let enPessantDirection = -1;
     if (peiceColor === 'w') {
          if (currentIndex < 48) {
             firstMove = false;
@@ -289,24 +298,29 @@ const generatePawnMoves = (state, selectedPeice, currentIndex) => {
             firstMove = false;
         }
         direction = 8;
+        enPessantDirection = 1;
     }
-    return getPawnMoves(state, currentIndex, firstMove, direction, peiceColor);
+    return getPawnMoves(state, currentIndex, firstMove, direction, peiceColor, enPessantDirection);
 }
 
-const getPawnMoves = (state, currentIndex, firstMove, direction, peiceColor) => {
+const getPawnMoves = (state, currentIndex, firstMove, direction, peiceColor, enPessantDirection) => {
     const {
         board,
-        enPessantIndex
+        enPessantIndex,
     } = state;
     // alert('need to implment en pessant')
     const enemyPeiceColor = peiceColor === 'w' ? 'b' : 'w';
     const availableMoves = [];
-    if (enPessantIndex) {
-        availableMoves.push(enPessantIndex);
-    }
     if ((currentIndex + direction) < 0 || (currentIndex + direction > 63)) {
         alert('this will be promoted dont handle ALSO REMOVE THIS ALERT');
         return availableMoves;
+    }
+    if (
+        enPessantIndex
+        && (enPessantIndex === currentIndex + (enPessantDirection * 7)
+        || enPessantIndex === currentIndex + (enPessantDirection * 9))
+    ) {
+        availableMoves.push(enPessantIndex);
     }
     //basic move
     if (!/[prnbqk]/.test(board[currentIndex + direction].toLowerCase())) {
