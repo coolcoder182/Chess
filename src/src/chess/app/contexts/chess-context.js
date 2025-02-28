@@ -16,6 +16,9 @@ export const ChessProvider = ({
     const [casteling, setCasteling] = useState('-');
     const [fen, setFen] = useState(fenString);
     const [enPessantIndex, setEnPessantIndex] = useState(null);
+    const [isPromotionOpen, setIsPromotionOpen] = useState(false);
+    const [promotionPosition, setPromotionPosition] = useState({});
+    const [promotionIndex, setPromotionIndex] = useState(null);
 
     useEffect(() => {
         generateBoardFromFen(fen);
@@ -58,7 +61,13 @@ export const ChessProvider = ({
         casteling,
         setCasteling,
         enPessantIndex,
-        setEnPessantIndex
+        setEnPessantIndex,
+        isPromotionOpen,
+        setIsPromotionOpen,
+        promotionPosition,
+        setPromotionPosition,
+        promotionIndex,
+        setPromotionIndex
     }
 
     return (

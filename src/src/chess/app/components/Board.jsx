@@ -1,7 +1,11 @@
 import { Squares } from "./Squares";
+import { PromotionPopup } from "./PromotionPopup";
 
 export const Board = () => {
     return (
-        <Squares />
+        <>
+            <Squares />
+            <PromotionPopup />
+        </>
     )
 }

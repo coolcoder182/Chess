@@ -1,20 +1,23 @@
-export const handleSquareClick = (state, index) => {
+export const handleSquareClick = (state, index, e) => {
     const {
         selectedIndex,
         setSelectedIndex,
         setAvailableMoves,
         board,
-        gameTurn
+        gameTurn,
+        isPromotionOpen
     } = state;
-    if (selectedIndex === index) {
-        setSelectedIndex(null);
-        setAvailableMoves([]);
-    } else if (selectedIndex === null || getPeiceColor(board[index]) === gameTurn) {
-        const newSelectedIndex = selectPeice(state, index);
-        setSelectedIndex(newSelectedIndex);
-        updateAvailableMoves(state, newSelectedIndex);
-    } else {
-        selectMove(state, index);
+    if (!isPromotionOpen) {
+        if (selectedIndex === index) {
+            setSelectedIndex(null);
+            setAvailableMoves([]);
+        } else if (selectedIndex === null || getPeiceColor(board[index]) === gameTurn) {
+            const newSelectedIndex = selectPeice(state, index);
+            setSelectedIndex(newSelectedIndex);
+            updateAvailableMoves(state, newSelectedIndex);
+        } else {
+            selectMove(state, index, e.clientX, e.clientY);
+        }
     }
 }
 
@@ -48,7 +51,7 @@ const updateAvailableMoves = (state, index) => {
     setAvailableMoves(availableMoves);
 }
 
-const selectMove = (state, index) => {
+const selectMove = (state, index, x, y) => {
     const {
         selectedIndex,
         setSelectedIndex,
@@ -59,7 +62,10 @@ const selectMove = (state, index) => {
         availableMoves,
         setAvailableMoves,
         enPessantIndex,
-        setEnPessantIndex
+        setEnPessantIndex,
+        setIsPromotionOpen,
+        setPromotionPosition,
+        setPromotionIndex
     } = state;
     if (!availableMoves.includes(index)) {
         return;
@@ -77,6 +83,11 @@ const selectMove = (state, index) => {
         const direction = gameTurn === 'w' ? 8 : -8;
         if (index === enPessantIndex) {
             newBoard[index + direction] = '';
+        }
+        if ((index >= 0 && index <= 8) || (index >= 56 && index <= 63)) {
+            setIsPromotionOpen(true);
+            setPromotionPosition({x, y});
+            setPromotionIndex(index);
         }
     }
     newBoard[index] = board[selectedIndex];

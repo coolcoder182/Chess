@@ -12,7 +12,7 @@ export const Square = ({ peice, index, squareColor, width }) => {
 
     return (
         <div
-            onClick={() => handleSquareClick(state, index)}
+            onClick={(e) => handleSquareClick(state, index, e)}
         >
             <div
                 style={{ 
