@@ -7,7 +7,8 @@ export const Square = ({ peice, index, squareColor, width }) => {
     const state = useContext(BoardContext);
     const {
         selectedIndex,
-        availableMoves
+        availableMoves,
+        whitePossibleMoves
     } = state;
 
     return (
@@ -16,7 +17,7 @@ export const Square = ({ peice, index, squareColor, width }) => {
         >
             <div
                 style={{ 
-                    backgroundColor: index === selectedIndex ? '#0000ff50' : squareColor,
+                    backgroundColor: index === selectedIndex ? '#0000ff50' : whitePossibleMoves.includes(index) ? 'red' : squareColor,
                     height: width / 8,
                     width: width / 8,
                     position: 'relative'

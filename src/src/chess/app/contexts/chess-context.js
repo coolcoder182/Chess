@@ -19,6 +19,8 @@ export const ChessProvider = ({
     const [isPromotionOpen, setIsPromotionOpen] = useState(false);
     const [promotionPosition, setPromotionPosition] = useState({});
     const [promotionIndex, setPromotionIndex] = useState(null);
+    const [whitePossibleMoves, setWhitePossibleMoves] = useState([]);
+    const [blackPossibleMoves, setBlackPossibleMoves] = useState([]);
 
     useEffect(() => {
         generateBoardFromFen(fen);
@@ -67,7 +69,11 @@ export const ChessProvider = ({
         promotionPosition,
         setPromotionPosition,
         promotionIndex,
-        setPromotionIndex
+        setPromotionIndex,
+        whitePossibleMoves,
+        setWhitePossibleMoves,
+        blackPossibleMoves,
+        setBlackPossibleMoves
     }
 
     return (
